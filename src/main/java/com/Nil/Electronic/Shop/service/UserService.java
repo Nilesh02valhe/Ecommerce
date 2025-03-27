@@ -28,6 +28,6 @@ public interface UserService {
     //    search User
     List<UserDto> seachUser(String keyword);
 
-//    seach user other feature
+    //    seach user other feature
 
 }

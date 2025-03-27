@@ -4,7 +4,9 @@ import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.entity.User;
 import com.Nil.Electronic.Shop.repository.UserRepository;
 import com.Nil.Electronic.Shop.service.UserService;
+import lombok.Builder;
 import org.apache.coyote.Response;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,9 +16,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ModelMapper mapper;
     @Override
     public UserDto createUser(UserDto userDto) {
         String string = UUID.randomUUID().toString();
@@ -27,28 +32,28 @@ public class UserServiceImpl implements UserService {
         return newDto;
     }
     private UserDto EntityToDto(User savedUser) {
-        UserDto userDto = UserDto.builder()
-                .userId(savedUser.getUserId())
-                .name(savedUser.getName())
-                .about(savedUser.getAbout())
-                .email(savedUser.getEmail())
-                .password(savedUser.getPassword())
-                .gender(savedUser.getGender())
-                .imageName(savedUser.getImageName())
-                .build();
-        return userDto;
+//        UserDto userDto = UserDto.builder()
+//                .userId(savedUser.getUserId())
+//                .name(savedUser.getName())
+//                .about(savedUser.getAbout())
+//                .email(savedUser.getEmail())
+//                .password(savedUser.getPassword())
+//                .gender(savedUser.getGender())
+//                .imageName(savedUser.getImageName())
+//                .build();
+        return mapper.map(savedUser, UserDto.class);
     }
     private User dtoToEntity(UserDto userDto) {
-        User user=User.builder()
-                .userId(userDto.getUserId())
-                .name(userDto.getName())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .about(userDto.getAbout())
-                .gender(userDto.getGender())
-                .imageName(userDto.getImageName())
-                .build();
-        return user;
+//        User user=User.builder()
+//                .userId(userDto.getUserId())
+//                .name(userDto.getName())
+//                .email(userDto.getEmail())
+//                .password(userDto.getPassword())
+//                .about(userDto.getAbout())
+//                .gender(userDto.getGender())
+//                .imageName(userDto.getImageName())
+//                .build();
+        return mapper.map(userDto, User.class);
         
     }
 
@@ -57,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("not fount user id"));
         user.setName(userDto.getName());
-//        user.setEmail(userDto.getEmail());
+
         user.setGender(userDto.getGender());
         user.setImageName(userDto.getImageName());
         user.setAbout(userDto.getAbout());
@@ -65,7 +70,6 @@ public class UserServiceImpl implements UserService {
 
         User updateUser= userRepository.save(user);
         UserDto updateDto= EntityToDto(updateUser);
-
         return updateDto;
     }
 
@@ -84,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Cant find By userId");
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Cant find By userId"));
         return EntityToDto(user);
     }
 
