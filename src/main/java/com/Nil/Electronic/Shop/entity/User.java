@@ -2,6 +2,7 @@ package com.Nil.Electronic.Shop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Builder;
 
 @Getter
 @Setter
