@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ModelMapper mapper;
+//    private ModelMapper mapper;
     @Override
     public UserDto createUser(UserDto userDto) {
         String string = UUID.randomUUID().toString();
@@ -32,28 +32,28 @@ public class UserServiceImpl implements UserService {
         return newDto;
     }
     private UserDto EntityToDto(User savedUser) {
-//        UserDto userDto = UserDto.builder()
-//                .userId(savedUser.getUserId())
-//                .name(savedUser.getName())
-//                .about(savedUser.getAbout())
-//                .email(savedUser.getEmail())
-//                .password(savedUser.getPassword())
-//                .gender(savedUser.getGender())
-//                .imageName(savedUser.getImageName())
-//                .build();
-        return mapper.map(savedUser, UserDto.class);
+        UserDto userDto = UserDto.builder()
+                .userId(savedUser.getUserId())
+                .name(savedUser.getName())
+                .about(savedUser.getAbout())
+                .email(savedUser.getEmail())
+                .password(savedUser.getPassword())
+                .gender(savedUser.getGender())
+                .imageName(savedUser.getImageName())
+                .build();
+        return userDto;
     }
     private User dtoToEntity(UserDto userDto) {
-//        User user=User.builder()
-//                .userId(userDto.getUserId())
-//                .name(userDto.getName())
-//                .email(userDto.getEmail())
-//                .password(userDto.getPassword())
-//                .about(userDto.getAbout())
-//                .gender(userDto.getGender())
-//                .imageName(userDto.getImageName())
-//                .build();
-        return mapper.map(userDto, User.class);
+        User user=User.builder()
+                .userId(userDto.getUserId())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .about(userDto.getAbout())
+                .gender(userDto.getGender())
+                .imageName(userDto.getImageName())
+                .build();
+        return user;
         
     }
 

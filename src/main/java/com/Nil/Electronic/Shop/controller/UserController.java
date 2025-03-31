@@ -1,17 +1,20 @@
 package com.Nil.Electronic.Shop.controller;
 
+import com.Nil.Electronic.Shop.dto.ApiResponceMassage;
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping("/users")
 @RestController
+@Controller
 public class UserController {
     @Autowired
     private UserService userService;
@@ -31,9 +34,13 @@ public class UserController {
     }
 //    delete
     @DeleteMapping("/{UserId}")
-    public ResponseEntity<String> deleteUser(@PathVariable String userId){
+    public ResponseEntity<ApiResponceMassage> deleteUser(@PathVariable String userId){
         userService.deleteUser(userId);
-        return new ResponseEntity<>(userId, HttpStatus.OK);
+        ApiResponceMassage massage = ApiResponceMassage.builder()
+                .massage("User delete")
+                .Success(true).status(HttpStatus.OK)
+                .build();
+        return new ResponseEntity<>(massage, HttpStatus.OK);
     }
 //    get all
     @GetMapping
