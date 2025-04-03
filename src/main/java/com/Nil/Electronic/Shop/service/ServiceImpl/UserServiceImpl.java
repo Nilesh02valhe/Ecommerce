@@ -2,6 +2,7 @@ package com.Nil.Electronic.Shop.service.ServiceImpl;
 
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.entity.User;
+import com.Nil.Electronic.Shop.exception.ResourceNotFoundException;
 import com.Nil.Electronic.Shop.repository.UserRepository;
 import com.Nil.Electronic.Shop.service.UserService;
 import lombok.Builder;
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto, String userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("not fount user id"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("not fount user id"));
         user.setName(userDto.getName());
 
         user.setGender(userDto.getGender());
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user id is not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user id is not found"));
 
     }
 
@@ -88,13 +89,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Cant find By userId"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Cant find By userId"));
         return EntityToDto(user);
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("user not found email And Password"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found email And Password"));
         return EntityToDto(user);
     }
 
