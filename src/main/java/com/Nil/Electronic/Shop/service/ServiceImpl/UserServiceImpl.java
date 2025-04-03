@@ -9,6 +9,10 @@ import lombok.Builder;
 import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -81,8 +85,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser() {
-        List<User> users = userRepository.findAll();
+    public List<UserDto> getAllUser(int pageNumber,int pageSize, String sortBy, String sortDIr) {
+        Sort sort = (sortDIr.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
+
+        Pageable pageable= PageRequest.of(pageNumber, pageSize);
+        Page<User> page = userRepository.findAll(pageable);
+        List<User> users = page.getContent();
         List<UserDto> dtoList = users.stream().map(user -> EntityToDto(user)).collect(Collectors.toList());
         return dtoList;
     }
