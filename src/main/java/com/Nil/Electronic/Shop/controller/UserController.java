@@ -1,6 +1,7 @@
 package com.Nil.Electronic.Shop.controller;
 
 import com.Nil.Electronic.Shop.dto.ApiResponceMassage;
+import com.Nil.Electronic.Shop.dto.PageableResponse;
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class UserController {
     }
 //    get all
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers(
+    public ResponseEntity<PageableResponse<UserDto>> getAllUsers(
             @RequestParam (value= "PageNumber", defaultValue = "0", required = false) int pageNumber,
             @RequestParam (value= "PageSize", defaultValue = "10", required = false) int pageSize,
             @RequestParam (value= "sortBy", defaultValue = "name", required = false) String sortBy,

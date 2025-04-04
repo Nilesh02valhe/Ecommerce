@@ -1,5 +1,6 @@
 package com.Nil.Electronic.Shop.service;
 
+import com.Nil.Electronic.Shop.dto.PageableResponse;
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.entity.User;
 
@@ -17,7 +18,7 @@ public interface UserService {
     void deleteUser(String userId);
 
     //    get all Users
-    List<UserDto> getAllUser(int pageNumber,int pageSize,String sortBy, String sortDIr);
+    PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDIr);
 
     //    get single user by id
     UserDto getUserById(String userId);
