@@ -1,20 +1,17 @@
 package com.Nil.Electronic.Shop.service.ServiceImpl;
 
+import com.Nil.Electronic.Shop.dto.PageableResponse;
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.entity.User;
 import com.Nil.Electronic.Shop.exception.ResourceNotFoundException;
 import com.Nil.Electronic.Shop.repository.UserRepository;
 import com.Nil.Electronic.Shop.service.UserService;
-import lombok.Builder;
-import org.apache.coyote.Response;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
     private UserDto EntityToDto(User savedUser) {
         UserDto userDto = UserDto.builder()
-                .userId(savedUser.getUserId())
+                .userId(String.valueOf(savedUser.getUserId()))
                 .name(savedUser.getName())
                 .about(savedUser.getAbout())
                 .email(savedUser.getEmail())
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService {
                 .imageName(userDto.getImageName())
                 .build();
         return user;
-        
+
     }
 
     @Override
@@ -85,14 +82,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser(int pageNumber,int pageSize, String sortBy, String sortDIr) {
+    public PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDIr) {
         Sort sort = (sortDIr.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
 
         Pageable pageable= PageRequest.of(pageNumber, pageSize);
         Page<User> page = userRepository.findAll(pageable);
         List<User> users = page.getContent();
         List<UserDto> dtoList = users.stream().map(user -> EntityToDto(user)).collect(Collectors.toList());
-        return dtoList;
+        return (PageableResponse<UserDto>) dtoList;
     }
 
     @Override

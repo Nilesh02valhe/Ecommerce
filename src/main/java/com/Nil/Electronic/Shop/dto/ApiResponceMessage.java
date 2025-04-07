@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApiResponceMassage {
+@Data
+public class ApiResponceMessage {
     private String massage;
     private boolean Success;
     private HttpStatus status;

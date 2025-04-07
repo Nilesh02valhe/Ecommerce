@@ -1,6 +1,7 @@
 package com.Nil.Electronic.Shop.controller;
 
-import com.Nil.Electronic.Shop.dto.ApiResponceMassage;
+import com.Nil.Electronic.Shop.dto.ApiResponceMessage;
+import com.Nil.Electronic.Shop.dto.ApiResponceMessage;
 import com.Nil.Electronic.Shop.dto.PageableResponse;
 import com.Nil.Electronic.Shop.dto.UserDto;
 import com.Nil.Electronic.Shop.service.UserService;
@@ -36,13 +37,14 @@ public class UserController {
     }
 //    delete
     @DeleteMapping("/{UserId}")
-    public ResponseEntity<ApiResponceMassage> deleteUser(@PathVariable String userId){
+    public ResponseEntity<ApiResponceMessage> deleteUser(@PathVariable String userId){
         userService.deleteUser(userId);
-        ApiResponceMassage massage = ApiResponceMassage.builder()
-                .massage("User delete")
-                .Success(true).status(HttpStatus.OK)
+        ApiResponceMessage response = ApiResponceMessage.builder()
+                .massage("User deleted successfully")
+                .Success(true)
+                .status(HttpStatus.OK)
                 .build();
-        return new ResponseEntity<>(massage, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 //    get all
     @GetMapping
@@ -51,8 +53,8 @@ public class UserController {
             @RequestParam (value= "PageSize", defaultValue = "10", required = false) int pageSize,
             @RequestParam (value= "sortBy", defaultValue = "name", required = false) String sortBy,
             @RequestParam (value= "sortDir", defaultValue = "asc", required = false) String sortDIr){
-        List<UserDto> allUser = userService.getAllUser(pageNumber,pageSize,sortBy,sortDIr);
-        return new ResponseEntity<>(allUser,HttpStatus.OK);
+        PageableResponse<UserDto> response = userService.getAllUser(pageNumber, pageSize, sortBy, sortDIr);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 //    get single user
     @GetMapping("/{userId}")

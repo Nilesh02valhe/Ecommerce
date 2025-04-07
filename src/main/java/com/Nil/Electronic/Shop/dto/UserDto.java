@@ -31,6 +31,5 @@ public class UserDto {
 
     @NotBlank(message ="Write some thing about your self")
     private String about;
-
     private String imageName;
 }

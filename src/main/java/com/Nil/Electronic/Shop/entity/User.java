@@ -14,6 +14,7 @@ import lombok.Builder;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userId;
 
     @Column(name="user_name")

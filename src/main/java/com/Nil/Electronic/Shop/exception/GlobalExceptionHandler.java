@@ -1,6 +1,7 @@
 package com.Nil.Electronic.Shop.exception;
 
-import com.Nil.Electronic.Shop.dto.ApiResponceMassage;
+import com.Nil.Electronic.Shop.dto.ApiResponceMessage;
+import com.Nil.Electronic.Shop.dto.ApiResponceMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,13 @@ public class GlobalExceptionHandler {
 
     private Logger logger= LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponceMassage> resourceNotFoundExceptionHanEntity(ResourceNotFoundException ex){
+    public ResponseEntity<ApiResponceMessage> resourceNotFoundExceptionHanEntity(ResourceNotFoundException ex){
 
         logger.info("Exception Handle Invoke !!");
-        ApiResponceMassage responce = ApiResponceMassage.builder().massage(ex.getMessage())
-                .status(HttpStatus.NOT_FOUND)
-                .Success(true)
+        ApiResponceMessage responce = ApiResponceMessage.builder()
+//                .massage(ex.getMessage())
+//                .status(HttpStatus.NOT_FOUND)
+//                .Success(true)
                 .build();
 
         return new ResponseEntity(responce, HttpStatus.NOT_FOUND);
